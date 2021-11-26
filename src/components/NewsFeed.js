@@ -1,7 +1,7 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import axios from 'axios'
 const NewsFeed =() =>{
-    const [articles, setArticles] = useState(null);
+    const [articles, setArticles] = useState([]);
 
     useEffect(() =>{
         
@@ -26,8 +26,8 @@ const NewsFeed =() =>{
        const first7Articles =  articles?.slice(0,7)
     return (
         <div className="news-feed">
-          <h2> newsfeed</h2>
-         {first7Articles.map( (article,v_index) => (
+          <h2> news feed</h2>
+         {first7Articles?.map( (article, _index) => (
              <div key={_index}>
              <a href={article.url}>  <p >{article.title}</p>    </a> 
             </div>

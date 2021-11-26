@@ -1,4 +1,4 @@
-import CurrencyConverter from "./components/currencyConverter";
+import CurrencyConverter from "./components/CurrencyConverter";
 import NewsFeed from "./components/NewsFeed";
 
 function App() {
