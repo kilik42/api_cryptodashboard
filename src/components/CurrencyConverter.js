@@ -1,11 +1,39 @@
 import React from 'react'
 import {useState} from 'react'
 import CurrencyConverter from ",/ExchangeRate"
+import axios from 'axios'
+
 function CurrencyConverter() {
     const currencies = ['BTC','ETH','USD','XRP','LTC','ADA']
     const [chosenPrimaryCurrency,setChosenPrimaryCurrency] = useState('BTC');
     const [chosenSecondaryCurrency,setChosenSecondaryCurrency] = useState('BTC');
     const [amount, setAmount] = useState(1);
+    const [exchangeRate, setExchangeRate] = useState(0);
+    const [result, setResult] = useState("");
+
+   const convert = () => {
+    
+
+    const options = {
+      method: 'GET',
+      url: 'https://alpha-vantage.p.rapidapi.com/query',
+      params: {from_currency: chosenPrimaryCurrency, function: 'CURRENCY_EXCHANGE_RATE', to_currency: chosenSecondaryCurrency},
+
+      headers: {
+        'x-rapidapi-host': 'alpha-vantage.p.rapidapi.com',
+        'x-rapidapi-key': process.env.REACT_APP_Rapid_API_KEY
+      }
+    };
+    
+    axios.request(options).then((response) => {
+        console.log(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate']);
+        setExchangeRate(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
+        setResult(response.data['Realtime Currency Exchange Rate']['5. Exchange Rate']* amount)
+    }).catch( (error) => {
+        console.error(error);
+    });
+   }
+
     return (
         <div className = "currency-converter">
             <h2> currency converter</h2>
@@ -42,7 +70,8 @@ function CurrencyConverter() {
                                <input
                                 type= "number"
                                 name="currency-amount-2"
-                                value ={""}
+                                value ={result}
+                                disable={true}
                                />    
                            </td>
                                    
@@ -60,7 +89,14 @@ function CurrencyConverter() {
                         </tr>
                     </tbody>
                  </table>
-            <ExchangeRate/>
+
+
+                  <button id="convert-button" onClick={convert}> Convert</button>
+            <ExchangeRate
+              exchangeRate = {exchangeRate}
+                chosenPrimaryCurrency={chosenPrimaryCurrency}
+                chosenSecondaryCurrency={chosenSecondaryCurrency}
+            />
         </div>
     )
 }
