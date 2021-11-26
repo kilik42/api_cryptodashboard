@@ -5,6 +5,7 @@ function CurrencyConverter() {
     const currencies = ['BTC','ETH','USD','XRP','LTC','ADA']
     const [chosenPrimaryCurrency,setChosenPrimaryCurrency] = useState('BTC');
     const [chosenSecondaryCurrency,setChosenSecondaryCurrency] = useState('BTC');
+    const [amount, setAmount] = useState(1);
     return (
         <div className = "currency-converter">
             <h2> currency converter</h2>
@@ -17,13 +18,14 @@ function CurrencyConverter() {
                                <input
                                 type= "number"
                                 name="currency-amount-1"
-                                value ={""}
+                                value ={amount}
+                                onChange={(e) => setAmount(e.target.value)}
                                />    
                            </td>
                                    
                            <td>
                            <select
-                                      value={""}
+                                      value={chosenPrimaryCurrency}
                                       name="currency-option-1"
                                       className="currency-options"
                                       onChange={(e)=> setChosenPrimaryCurrency(e.target)}
@@ -46,7 +48,7 @@ function CurrencyConverter() {
                                    
                            <td>
                            <select
-                                      value={""}
+                                      value={chosenSecondaryCurrency}
                                       name="currency-option-2"
                                       className="currency-options"
                                       onChange={(e)=> setChosenSecondaryCurrency(e.target)}
